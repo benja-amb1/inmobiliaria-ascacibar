@@ -2,7 +2,8 @@ import multer from "multer";
 import path from 'node:path/win32'
 import fs from 'node:fs'
 
-export const uploadsPath = path.join(__dirname, '../uploads');
+export const uploadsPath = path.join(__dirname, '../../uploads');
+
 
 if (!fs.existsSync(uploadsPath)) {
   fs.mkdirSync(uploadsPath, { recursive: true })
@@ -20,7 +21,7 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-  if (file.mimetype.startsWith('images/')) {
+  if (file.mimetype.startsWith('image/')) {
     cb(null, true)
   } else {
     cb(new Error("Solo se permiten imagenes"))

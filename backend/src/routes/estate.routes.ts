@@ -4,6 +4,6 @@ import uploads from "../middlewares/upload.multer";
 
 const router = Router();
 
-router.post('/', uploads.array('image', 10), EstateController.addEstate)
+router.post('/', uploads.array('images', 10), EstateController.addEstate)
 
 export default router

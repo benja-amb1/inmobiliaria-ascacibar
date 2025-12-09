@@ -7,8 +7,8 @@ const EstateValidator = z.object({
   type: z.enum(['casa', 'departamento', 'terreno'], "El tipo debe ser: Casa, Departamento o Terreno."),
   rooms: z.number().positive("El número debe ser positivo."),
   size: z.number().positive("El número debe ser positivo."),
-  address: z.string().max(5, "La dirección debe tener al menos 15 caracteres."),
-  images: z.string()
+  address: z.string().min(5, "La dirección debe tener al menos 15 caracteres."),
+  images: z.array(z.string()).optional()
 })
 
 const EstateValidatorCreator = EstateValidator

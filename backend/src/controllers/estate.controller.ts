@@ -6,9 +6,16 @@ class EstateController {
   static addEstate = async (req: Request, res: Response): Promise<Response | void> => {
     try {
       const { title, description, price, type, rooms, size, address } = req.body;
-      const images = req.file?.path;
 
-      const validator = EstateValidatorCreator.safeParse({ title, description, price, type, rooms, size, address, images });
+      const files = req.files as Express.Multer.File[];
+
+      const images = files.map(file => `/uploads/${file.filename}`);
+
+      const dataToValidate = {
+        title, description, price: Number(price), type, rooms: Number(rooms), size: Number(size), address, images
+      }
+
+      const validator = EstateValidatorCreator.safeParse(dataToValidate);
 
       if (!validator.success) {
         return res.status(400).json({ success: false, error: validator.error.flatten().fieldErrors })
@@ -18,7 +25,7 @@ class EstateController {
 
       await estate.save();
 
-      return res.status(201).json({ success: true, message: 'Propiedad creada correctamente.' })
+      return res.status(201).json({ success: true, message: 'Propiedad creada correctamente.', data: estate })
 
 
     } catch (error) {
