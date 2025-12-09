@@ -6,7 +6,7 @@ class EstateController {
   static addEstate = async (req: Request, res: Response): Promise<Response | void> => {
     try {
       const { title, description, price, type, rooms, size, address } = req.body;
-      const images = req.files;
+      const images = req.file?.path;
 
       const validator = EstateValidatorCreator.safeParse({ title, description, price, type, rooms, size, address, images });
 
